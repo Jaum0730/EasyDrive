@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search, Filter, Car, Users, Fuel, Settings } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const SearchModels = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -218,9 +219,11 @@ const SearchModels = () => {
                       <Button className="w-full bg-brand-blue hover:bg-blue-700">
                         Ver Detalhes
                       </Button>
-                      <Button variant="outline" className="w-full">
-                        Alugar Agora
-                      </Button>
+                      <Link to="/rent-vehicle">
+                        <Button variant="outline" className="w-full">
+                          Alugar Agora
+                        </Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>

@@ -1,8 +1,8 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Users, Fuel, Zap, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const cars = [
   {
@@ -146,9 +146,11 @@ export const FeaturedCars = () => {
                     <span className="text-3xl font-bold text-brand-blue">${car.price}</span>
                     <span className="text-gray-600">/day</span>
                   </div>
-                  <Button className="bg-brand-blue hover:bg-blue-700">
-                    Book Now
-                  </Button>
+                  <Link to="/rent-vehicle">
+                    <Button className="bg-brand-blue hover:bg-blue-700">
+                      Book Now
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
@@ -156,9 +158,11 @@ export const FeaturedCars = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
-            View All Cars
-          </Button>
+          <Link to="/search-models">
+            <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
+              View All Cars
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

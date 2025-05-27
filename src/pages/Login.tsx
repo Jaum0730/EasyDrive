@@ -6,18 +6,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  
+  const { login, isLoading } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui seria implementada a lógica de autenticação
-    console.log("Login attempt:", { email, password });
+    try {
+      await login(email, password);
+      toast({
+        title: "Sucesso!",
+        description: "Login realizado com sucesso!"
+      });
+      navigate("/profile");
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Email ou senha incorretos. Tente novamente.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -103,8 +121,9 @@ const Login = () => {
                 <Button
                   type="submit"
                   className="w-full bg-brand-blue hover:bg-blue-700"
+                  disabled={isLoading}
                 >
-                  Entrar
+                  {isLoading ? "Entrando..." : "Entrar"}
                 </Button>
               </form>
 

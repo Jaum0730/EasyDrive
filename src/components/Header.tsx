@@ -27,7 +27,9 @@ export const Header = () => {
 
           {/* Desktop Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline">Entrar</Button>
+            <Link to="/login">
+              <Button variant="outline">Entrar</Button>
+            </Link>
             <Link to="/rent-vehicle">
               <Button className="bg-brand-blue hover:bg-blue-700">Alugar Agora</Button>
             </Link>
@@ -54,7 +56,9 @@ export const Header = () => {
               <a href="#about" className="text-gray-700 hover:text-brand-blue transition-colors">Sobre</a>
               <a href="#contact" className="text-gray-700 hover:text-brand-blue transition-colors">Contato</a>
               <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
-                <Button variant="outline" className="w-full">Entrar</Button>
+                <Link to="/login">
+                  <Button variant="outline" className="w-full">Entrar</Button>
+                </Link>
                 <Link to="/rent-vehicle">
                   <Button className="w-full bg-brand-blue hover:bg-blue-700">Alugar Agora</Button>
                 </Link>

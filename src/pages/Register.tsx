@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -8,8 +7,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, User, Phone, MapPin, Calendar } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { db } from "@/services/firebase";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -23,13 +23,14 @@ const Register = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
-  const { register, isLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     
     if (formData.password !== formData.confirmPassword) {
       toast({
@@ -37,22 +38,44 @@ const Register = () => {
         description: "As senhas não coincidem",
         variant: "destructive"
       });
+      setIsLoading(false);
       return;
     }
 
     try {
-      await register(formData);
+      // Buscar o último ID para incrementar
+      const usersRef = collection(db, "Users");
+      const querySnapshot = await getDocs(usersRef);
+      const lastId = querySnapshot.size;
+
+      // Preparar os dados no formato correto
+      const userData = {
+        address: formData.address,
+        data: formData.birthDate,
+        email: formData.email,
+        fone: formData.phone,
+        fullname: formData.name,
+        id: lastId + 1,
+        password: formData.password
+      };
+
+      // Adicionar documento à coleção "Users"
+      await addDoc(usersRef, userData);
+
       toast({
         title: "Sucesso!",
         description: "Conta criada com sucesso!"
       });
       navigate("/profile");
     } catch (error) {
+      console.error("Erro ao criar conta:", error);
       toast({
         title: "Erro",
         description: "Erro ao criar conta. Tente novamente.",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

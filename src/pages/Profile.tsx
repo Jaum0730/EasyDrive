@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -8,30 +7,103 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Phone, MapPin, Calendar, Car, CreditCard } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
+import { User, Phone, MapPin, Calendar, Car, CreditCard, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { db } from "@/services/firebase";
+import { collection, doc, updateDoc, query, where, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { user, updateProfile } = useAuth();
-  const { toast } = useToast();
+  const [user, setUser] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
-    phone: user?.phone || "",
-    address: user?.address || "",
-    birthDate: user?.birthDate || ""
+  const [originalData, setOriginalData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    birthDate: ""
   });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    birthDate: ""
+  });
+  
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    updateProfile(formData);
-    setIsEditing(false);
-    toast({
-      title: "Sucesso!",
-      description: "Perfil atualizado com sucesso!"
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      navigate("/login");
+      return;
+    }
+
+    const userData = JSON.parse(storedUser);
+    setUser(userData);
+    setFormData({
+      name: userData.name || "",
+      email: userData.email || "",
+      phone: userData.phone || "",
+      address: userData.address || "",
+      birthDate: userData.birthDate || ""
     });
+  }, [navigate]);
+
+  const handleEditClick = () => {
+    setOriginalData({ ...formData });
+    setIsEditing(true);
+  };
+
+  const handleCancelClick = () => {
+    setFormData({ ...originalData });
+    setIsEditing(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      // Atualiza no Firestore
+      const usersRef = collection(db, "Users");
+      const q = query(usersRef, where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        await updateDoc(doc(db, "Users", userDoc.id), {
+          fullname: formData.name,
+          fone: formData.phone,
+          address: formData.address,
+          data: formData.birthDate
+        });
+      }
+
+      // Atualiza no localStorage
+      const updatedUser = {
+        ...user,
+        name: formData.name,
+        phone: formData.phone,
+        address: formData.address,
+        birthDate: formData.birthDate
+      };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+
+      setIsEditing(false);
+      toast({
+        title: "Sucesso!",
+        description: "Perfil atualizado com sucesso!"
+      });
+    } catch (error) {
+      console.error("Erro ao atualizar perfil:", error);
+      toast({
+        title: "Erro",
+        description: "Erro ao atualizar perfil. Tente novamente.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,7 +192,7 @@ const Profile = () => {
                           type="email"
                           value={formData.email}
                           onChange={handleChange}
-                          disabled={!isEditing}
+                          disabled={true}
                         />
                       </div>
 
@@ -174,21 +246,27 @@ const Profile = () => {
                     <div className="flex space-x-4">
                       {isEditing ? (
                         <>
-                          <Button type="submit" className="bg-brand-blue hover:bg-blue-700">
+                          <Button 
+                            type="submit" 
+                            className="bg-brand-blue hover:bg-blue-700 flex items-center"
+                          >
+                            <Save className="h-4 w-4 mr-2" />
                             Salvar alterações
                           </Button>
                           <Button 
                             type="button" 
                             variant="outline" 
-                            onClick={() => setIsEditing(false)}
+                            onClick={handleCancelClick}
+                            className="flex items-center"
                           >
+                            <X className="h-4 w-4 mr-2" />
                             Cancelar
                           </Button>
                         </>
                       ) : (
                         <Button 
                           type="button" 
-                          onClick={() => setIsEditing(true)}
+                          onClick={handleEditClick}
                           className="bg-brand-blue hover:bg-blue-700"
                         >
                           Editar perfil

@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star } from "lucide-react";
 
@@ -15,27 +14,27 @@ export const Hero = () => {
                   <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                 ))}
               </div>
-              <span className="text-gray-600">Trusted by 50k+ customers</span>
+              <span className="text-gray-600">Confiado por mais de 50 mil clientes</span>
             </div>
             
             <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Premium Car 
-              <span className="text-brand-blue"> Rental</span> 
-              <br />Made Simple
+              Aluguel de Carros 
+              <span className="text-brand-blue"> Premium</span> 
+              <br />Simplificado
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              Discover the freedom of the road with our premium fleet. From economy to luxury, 
-              find the perfect car for your journey with unbeatable prices and service.
+              Descubra a liberdade da estrada com nossa frota premium. De carros econômicos a luxuosos, 
+              encontre o carro perfeito para sua jornada com preços e serviço imbatíveis.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-brand-blue hover:bg-blue-700 text-white px-8 py-6 text-lg">
-                Book Your Car Now
+                Alugue Seu Carro Agora
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
-                View Fleet
+                Ver Frota
               </Button>
             </div>
 
@@ -43,15 +42,15 @@ export const Hero = () => {
             <div className="grid grid-cols-3 gap-8 mt-12 pt-8 border-t border-gray-200">
               <div>
                 <div className="text-3xl font-bold text-brand-blue">500+</div>
-                <div className="text-gray-600">Premium Cars</div>
+                <div className="text-gray-600">Carros Premium</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-brand-blue">50k+</div>
-                <div className="text-gray-600">Happy Customers</div>
+                <div className="text-gray-600">Clientes Satisfeitos</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-brand-blue">24/7</div>
-                <div className="text-gray-600">Support</div>
+                <div className="text-gray-600">Suporte</div>
               </div>
             </div>
           </div>
@@ -67,7 +66,7 @@ export const Hero = () => {
               
               {/* Floating Badge */}
               <div className="absolute -top-4 -right-4 bg-brand-orange text-white px-6 py-3 rounded-full shadow-lg">
-                <span className="font-semibold">From $29/day</span>
+                <span className="font-semibold">A partir de R$29/dia</span>
               </div>
             </div>
           </div>

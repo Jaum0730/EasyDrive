@@ -1,4 +1,3 @@
-
 import { Car, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 export const Footer = () => {
@@ -13,7 +12,7 @@ export const Footer = () => {
               <span className="text-2xl font-bold">DriveEasy</span>
             </div>
             <p className="text-gray-400 leading-relaxed">
-              Your trusted partner for premium car rentals. Experience the freedom of the road with our exceptional fleet and service.
+              Seu parceiro confiável para aluguel de carros premium. Experimente a liberdade da estrada com nossa frota excepcional e serviço.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-brand-blue transition-colors">
@@ -33,33 +32,33 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-6">Links Rápidos</h3>
             <ul className="space-y-4">
-              <li><a href="#home" className="text-gray-400 hover:text-white transition-colors">Home</a></li>
-              <li><a href="#cars" className="text-gray-400 hover:text-white transition-colors">Our Fleet</a></li>
-              <li><a href="#about" className="text-gray-400 hover:text-white transition-colors">About Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Locations</a></li>
-              <li><a href="#contact" className="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#home" className="text-gray-400 hover:text-white transition-colors">Início</a></li>
+              <li><a href="#cars" className="text-gray-400 hover:text-white transition-colors">Nossa Frota</a></li>
+              <li><a href="#about" className="text-gray-400 hover:text-white transition-colors">Sobre Nós</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Preços</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Localizações</a></li>
+              <li><a href="#contact" className="text-gray-400 hover:text-white transition-colors">Contato</a></li>
             </ul>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Services</h3>
+            <h3 className="text-lg font-semibold mb-6">Serviços</h3>
             <ul className="space-y-4">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Economy Cars</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Luxury Vehicles</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Electric Cars</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Long-term Rental</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Corporate Fleet</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Airport Pickup</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Carros Econômicos</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Veículos de Luxo</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Carros Elétricos</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Aluguel de Longo Prazo</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Frota Corporativa</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Retirada no Aeroporto</a></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Contact Info</h3>
+            <h3 className="text-lg font-semibold mb-6">Informações de Contato</h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-brand-blue" />
@@ -80,12 +79,12 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2024 DriveEasy. All rights reserved.
+            © 2024 DriveEasy. Todos os direitos reservados.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a>
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Cookie Policy</a>
+            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Política de Privacidade</a>
+            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Termos de Serviço</a>
+            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Política de Cookies</a>
           </div>
         </div>
       </div>

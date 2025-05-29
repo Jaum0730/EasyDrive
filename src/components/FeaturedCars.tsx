@@ -8,7 +8,7 @@ const cars = [
   {
     id: 1,
     name: "BMW 3 Series",
-    category: "Luxury",
+    category: "Luxo",
     image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     price: 89,
     rating: 4.9,
@@ -21,7 +21,7 @@ const cars = [
   {
     id: 2,
     name: "Tesla Model 3",
-    category: "Electric",
+    category: "Elétrico",
     image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     price: 95,
     rating: 4.8,
@@ -34,7 +34,7 @@ const cars = [
   {
     id: 3,
     name: "Honda Civic",
-    category: "Economy",
+    category: "Econômico",
     image: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     price: 45,
     rating: 4.7,
@@ -47,7 +47,7 @@ const cars = [
   {
     id: 4,
     name: "Mercedes C-Class",
-    category: "Luxury",
+    category: "Luxo",
     image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     price: 120,
     rating: 4.9,
@@ -60,7 +60,7 @@ const cars = [
   {
     id: 5,
     name: "Toyota Prius",
-    category: "Hybrid",
+    category: "Híbrido",
     image: "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     price: 55,
     rating: 4.6,
@@ -73,7 +73,7 @@ const cars = [
   {
     id: 6,
     name: "Ford Mustang",
-    category: "Sports",
+    category: "Esportivo",
     image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     price: 150,
     rating: 4.8,
@@ -91,10 +91,10 @@ export const FeaturedCars = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Our Featured Fleet
+            Nossa Frota em Destaque
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose from our carefully selected range of vehicles, from economy cars to luxury sedans and sports cars
+            Escolha entre nossa seleção cuidadosa de veículos, desde carros econômicos até sedans de luxo e carros esportivos
           </p>
         </div>
 
@@ -108,10 +108,10 @@ export const FeaturedCars = () => {
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <Badge className={`absolute top-4 left-4 ${
-                  car.category === 'Luxury' ? 'bg-purple-600' :
-                  car.category === 'Electric' ? 'bg-green-600' :
-                  car.category === 'Sports' ? 'bg-red-600' :
-                  car.category === 'Hybrid' ? 'bg-blue-600' :
+                  car.category === 'Luxo' ? 'bg-purple-600' :
+                  car.category === 'Elétrico' ? 'bg-green-600' :
+                  car.category === 'Esportivo' ? 'bg-red-600' :
+                  car.category === 'Híbrido' ? 'bg-blue-600' :
                   'bg-gray-600'
                 }`}>
                   {car.category}
@@ -148,7 +148,7 @@ export const FeaturedCars = () => {
                   </div>
                   <Link to="/rent-vehicle">
                     <Button className="bg-brand-blue hover:bg-blue-700">
-                      Book Now
+                      Alugar Agora
                     </Button>
                   </Link>
                 </div>
@@ -160,7 +160,7 @@ export const FeaturedCars = () => {
         <div className="text-center mt-12">
           <Link to="/search-models">
             <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
-              View All Cars
+              Ver Todos os Carros
             </Button>
           </Link>
         </div>

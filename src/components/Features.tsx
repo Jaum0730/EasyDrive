@@ -1,36 +1,35 @@
-
 import { Shield, Clock, MapPin, Headphones, CreditCard, Award } from "lucide-react";
 
 const features = [
   {
     icon: Shield,
-    title: "Fully Insured",
-    description: "All our vehicles come with comprehensive insurance coverage for your peace of mind."
+    title: "Totalmente Segurado",
+    description: "Todos os nossos veículos vêm com cobertura de seguro abrangente para sua tranquilidade."
   },
   {
     icon: Clock,
-    title: "24/7 Support",
-    description: "Round-the-clock customer support to assist you whenever you need help."
+    title: "Suporte 24/7",
+    description: "Suporte ao cliente 24 horas por dia para ajudá-lo sempre que precisar."
   },
   {
     icon: MapPin,
-    title: "Multiple Locations",
-    description: "Pick up and drop off at over 100+ convenient locations nationwide."
+    title: "Múltiplas Localizações",
+    description: "Retirada e devolução em mais de 100 locais convenientes em todo o país."
   },
   {
     icon: Headphones,
-    title: "Expert Service",
-    description: "Our experienced team ensures you get the best service and vehicle recommendations."
+    title: "Serviço Especializado",
+    description: "Nossa equipe experiente garante o melhor serviço e recomendações de veículos."
   },
   {
     icon: CreditCard,
-    title: "Easy Payment",
-    description: "Secure and flexible payment options including all major credit cards and digital wallets."
+    title: "Pagamento Fácil",
+    description: "Opções de pagamento seguras e flexíveis, incluindo todos os principais cartões de crédito e carteiras digitais."
   },
   {
     icon: Award,
-    title: "Premium Quality",
-    description: "Well-maintained, regularly serviced vehicles from top automotive brands."
+    title: "Qualidade Premium",
+    description: "Veículos bem mantidos e regularmente revisados das principais marcas automotivas."
   }
 ];
 
@@ -40,10 +39,10 @@ export const Features = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Why Choose DriveEasy?
+            Por que Escolher a DriveEasy?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We're committed to providing you with the best car rental experience through our premium services and features
+            Estamos comprometidos em proporcionar a melhor experiência de aluguel de carros através de nossos serviços e recursos premium
           </p>
         </div>
 

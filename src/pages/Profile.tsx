@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Phone, MapPin, Calendar, Car, CreditCard, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { db } from "@/services/firebase";
+import { db } from "@/services/firebaseconfig";
 import { collection, doc, updateDoc, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 

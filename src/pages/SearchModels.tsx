@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +9,9 @@ import { Search, Filter, Car, Users, Fuel, Settings } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { db } from "@/services/firebaseconfig";
+import { collection, getDocs } from "firebase/firestore";
+import { useToast } from "@/hooks/use-toast";
 
 const SearchModels = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,96 +21,34 @@ const SearchModels = () => {
     fuelType: "",
     transmission: ""
   });
+  const [cars, setCars] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
-  const cars = [
-    {
-      id: 1,
-      name: "Toyota Corolla",
-      category: "Sedan",
-      price: "R$ 120/dia",
-      image: "/placeholder.svg",
-      images: [
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg"
-      ],
-      features: ["5 lugares", "Automático", "Flex", "Ar-condicionado"],
-      description: "O Toyota Corolla é um sedan confiável e econômico, perfeito para viagens em família ou negócios. Com design moderno e tecnologia avançada."
-    },
-    {
-      id: 2,
-      name: "Honda Civic",
-      category: "Sedan",
-      price: "R$ 140/dia",
-      image: "/placeholder.svg",
-      images: [
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg"
-      ],
-      features: ["5 lugares", "Automático", "Flex", "Ar-condicionado"],
-      description: "Honda Civic oferece excelente performance e conforto, ideal para quem busca elegância e eficiência."
-    },
-    {
-      id: 3,
-      name: "Volkswagen Gol",
-      category: "Hatch",
-      price: "R$ 80/dia",
-      image: "/placeholder.svg",
-      images: [
-        "/placeholder.svg",
-        "/placeholder.svg"
-      ],
-      features: ["5 lugares", "Manual", "Flex", "Ar-condicionado"],
-      description: "O Volkswagen Gol é um hatchback compacto e econômico, perfeito para uso urbano e viagens curtas."
-    },
-    {
-      id: 4,
-      name: "Chevrolet Tracker",
-      category: "SUV",
-      price: "R$ 180/dia",
-      image: "/placeholder.svg",
-      images: [
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg"
-      ],
-      features: ["5 lugares", "Automático", "Flex", "4x4"],
-      description: "Chevrolet Tracker é um SUV versátil com tração 4x4, ideal para aventuras e viagens off-road."
-    },
-    {
-      id: 5,
-      name: "Renault Kwid",
-      category: "Hatch",
-      price: "R$ 70/dia",
-      image: "/placeholder.svg",
-      images: [
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg"
-      ],
-      features: ["5 lugares", "Manual", "Flex", "Direção elétrica"],
-      description: "Renault Kwid é um hatchback moderno e acessível, com ótimo custo-benefício para uso diário."
-    },
-    {
-      id: 6,
-      name: "Ford EcoSport",
-      category: "SUV",
-      price: "R$ 160/dia",
-      image: "/placeholder.svg",
-      images: [
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg",
-        "/placeholder.svg"
-      ],
-      features: ["5 lugares", "Manual", "Flex", "4x2"],
-      description: "Ford EcoSport combina a praticidade de um SUV compacto com a economia de combustível."
-    }
-  ];
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const carsRef = collection(db, "Cars");
+        const querySnapshot = await getDocs(carsRef);
+        const carsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setCars(carsData);
+      } catch (error) {
+        console.error("Erro ao buscar carros:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível carregar os carros. Tente novamente.",
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCars();
+  }, [toast]);
 
   const handleFilterChange = (filterType: string, value: string) => {
     setFilters({
@@ -121,9 +61,35 @@ const SearchModels = () => {
     const matchesSearch = car.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          car.category.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = !filters.category || car.category === filters.category;
+    const matchesPrice = !filters.priceRange || (() => {
+      const price = parseFloat(car.price.replace(/[^0-9]/g, ''));
+      switch (filters.priceRange) {
+        case 'low': return price <= 100;
+        case 'medium': return price > 100 && price <= 150;
+        case 'high': return price > 150;
+        default: return true;
+      }
+    })();
+    const matchesFuel = !filters.fuelType || car.features.includes(filters.fuelType);
+    const matchesTransmission = !filters.transmission || car.features.includes(filters.transmission);
     
-    return matchesSearch && matchesCategory;
+    return matchesSearch && matchesCategory && matchesPrice && matchesFuel && matchesTransmission;
   });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-white font-inter">
+        <Header />
+        <div className="pt-16 flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <Car className="h-16 w-16 text-gray-400 mx-auto mb-4 animate-spin" />
+            <p className="text-gray-600">Carregando carros...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white font-inter">
@@ -199,9 +165,9 @@ const SearchModels = () => {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Qualquer</option>
-                        <option value="flex">Flex</option>
-                        <option value="gasoline">Gasolina</option>
-                        <option value="diesel">Diesel</option>
+                        <option value="Flex">Flex</option>
+                        <option value="Gasolina">Gasolina</option>
+                        <option value="Diesel">Diesel</option>
                       </select>
                     </div>
 
@@ -213,8 +179,8 @@ const SearchModels = () => {
                         className="w-full p-2 border border-gray-300 rounded-md"
                       >
                         <option value="">Qualquer</option>
-                        <option value="manual">Manual</option>
-                        <option value="automatic">Automático</option>
+                        <option value="Manual">Manual</option>
+                        <option value="Automático">Automático</option>
                       </select>
                     </div>
                   </div>
@@ -235,7 +201,7 @@ const SearchModels = () => {
                 <Card key={car.id} className="hover:shadow-lg transition-shadow">
                   <CardHeader className="p-0">
                     <img
-                      src={car.image}
+                      src={car.image || "/placeholder.svg"}
                       alt={car.name}
                       className="w-full h-48 object-cover rounded-t-lg"
                     />
@@ -248,7 +214,7 @@ const SearchModels = () => {
                     </div>
 
                     <div className="space-y-2 mb-6">
-                      {car.features.map((feature, index) => (
+                      {car.features.map((feature: string, index: number) => (
                         <div key={index} className="flex items-center space-x-2 text-sm text-gray-600">
                           <div className="w-2 h-2 bg-brand-blue rounded-full"></div>
                           <span>{feature}</span>
@@ -273,11 +239,11 @@ const SearchModels = () => {
                             <div className="space-y-4">
                               <Carousel className="w-full">
                                 <CarouselContent>
-                                  {car.images.map((image, index) => (
+                                  {(car.images || [car.image]).map((image: string, index: number) => (
                                     <CarouselItem key={index}>
                                       <div className="aspect-video">
                                         <img
-                                          src={image}
+                                          src={image || "/placeholder.svg"}
                                           alt={`${car.name} - Imagem ${index + 1}`}
                                           className="w-full h-full object-cover rounded-lg"
                                         />
@@ -305,7 +271,7 @@ const SearchModels = () => {
                               <div>
                                 <h3 className="text-lg font-semibold mb-2">Características</h3>
                                 <div className="space-y-2">
-                                  {car.features.map((feature, index) => (
+                                  {car.features.map((feature: string, index: number) => (
                                     <div key={index} className="flex items-center space-x-2">
                                       <div className="w-2 h-2 bg-brand-blue rounded-full"></div>
                                       <span className="text-gray-600">{feature}</span>

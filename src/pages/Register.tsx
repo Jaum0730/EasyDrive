@@ -8,8 +8,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, User, Phone, MapPin, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { db } from "@/services/firebase";
+import { auth, db } from "@/services/firebaseconfig";
 import { collection, addDoc, getDocs } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -43,6 +44,13 @@ const Register = () => {
     }
 
     try {
+      // Primeiro, criar o usuário no Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
       // Buscar o último ID para incrementar
       const usersRef = collection(db, "Users");
       const querySnapshot = await getDocs(usersRef);
@@ -56,7 +64,9 @@ const Register = () => {
         fone: formData.phone,
         fullname: formData.name,
         id: lastId + 1,
-        password: formData.password
+        uid: userCredential.user.uid, // Adicionar o UID do usuário
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       };
 
       // Adicionar documento à coleção "Users"
@@ -67,11 +77,19 @@ const Register = () => {
         description: "Conta criada com sucesso!"
       });
       navigate("/profile");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Erro ao criar conta:", error);
+      let errorMessage = "Erro ao criar conta. Tente novamente.";
+      
+      if (error.code === "auth/email-already-in-use") {
+        errorMessage = "Este email já está em uso.";
+      } else if (error.code === "auth/weak-password") {
+        errorMessage = "A senha deve ter pelo menos 6 caracteres.";
+      }
+      
       toast({
         title: "Erro",
-        description: "Erro ao criar conta. Tente novamente.",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {

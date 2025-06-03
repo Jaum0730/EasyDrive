@@ -9,7 +9,7 @@ export const Footer = () => {
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
               <Car className="h-8 w-8 text-brand-blue" />
-              <span className="text-2xl font-bold">DriveEasy</span>
+              <span className="text-2xl font-bold">EasyDrive</span>
             </div>
             <p className="text-gray-400 leading-relaxed">
               Seu parceiro confiável para aluguel de carros premium. Experimente a liberdade da estrada com nossa frota excepcional e serviço.
@@ -79,7 +79,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2024 DriveEasy. Todos os direitos reservados.
+            © 2024 EasyDrive. Todos os direitos reservados.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Política de Privacidade</a>

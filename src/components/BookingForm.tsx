@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -42,6 +43,7 @@ const timeSlots = [
 ];
 
 export const BookingForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     pickupLocation: "",
     dropoffLocation: "",
@@ -58,7 +60,9 @@ export const BookingForm = () => {
       pickupDate: formData.pickupDate?.toISOString(),
       dropoffDate: formData.dropoffDate?.toISOString()
     });
-    // Handle form submission logic here
+    
+    // Redireciona para a página de busca de carros com os dados do formulário
+    navigate("/search-cars", { state: { formData } });
   };
 
   return (

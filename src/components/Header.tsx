@@ -25,7 +25,7 @@ export const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <Car className="h-8 w-8 text-brand-blue" />
-            <span className="text-2xl font-bold text-gray-900">DriveEasy</span>
+            <span className="text-2xl font-bold text-gray-900">EasyDrive</span>
           </Link>
 
           {/* Desktop Navigation */}
